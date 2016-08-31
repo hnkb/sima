@@ -25,35 +25,43 @@ memory_window::~memory_window()
 
 LRESULT memory_window::proc(const UINT message, const WPARAM wParam, const LPARAM lParam)
 {
-	switch (message)
-	{
-	case WM_PAINT:
+	if (message == WM_PAINT)
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(handle, &ps);
 		FillRect(hdc, &ps.rcPaint, HBRUSH(COLOR_WINDOW + 1));
 		auto font_default = SelectObject(hdc, font_fixed);
 
-		auto& sysmem = app.get_computer().memory;
-		for (int i = 0, y = 10; i < sysmem.size() && y < ps.rcPaint.bottom; i++, y += 20)
-		{
-			RECT r{ 10, y, 30, y + 20 };
-			SetTextColor(hdc, 0xfec16e);
-			DrawTextW(hdc, std::to_wstring(i).c_str(), -1, &r, DT_RIGHT | DT_TOP);
-
-			r.left = 40;
-			r.right = 70;
-			SetTextColor(hdc, 0);
-			DrawTextW(hdc, std::to_wstring(sysmem[i]).c_str(), -1, &r, DT_RIGHT | DT_TOP);
-		}
-
-		TextOutW(hdc, 400, 100, L"DATA VIEW", 11);
+		draw_memview(hdc, ps.rcPaint);
+		draw_dataview(hdc, ps.rcPaint);
 
 		SelectObject(hdc, font_default);
 		EndPaint(handle, &ps);
 		return 0;
 	}
-	}
 
 	return window::proc(message, wParam, lParam);
+}
+
+
+void memory_window::draw_memview(HDC hdc, RECT& rect)
+{
+	auto& sysmem = app.get_computer().memory;
+	for (int i = 0, y = 10; i < sysmem.size() && y < rect.bottom; i++, y += 20)
+	{
+		RECT r{ 10, y, 30, y + 20 };
+		SetTextColor(hdc, 0xfec16e);
+		DrawTextW(hdc, std::to_wstring(i).c_str(), -1, &r, DT_RIGHT | DT_TOP);
+
+		r.left = 40;
+		r.right = 70;
+		SetTextColor(hdc, 0);
+		DrawTextW(hdc, std::to_wstring(sysmem[i]).c_str(), -1, &r, DT_RIGHT | DT_TOP);
+	}
+}
+
+
+void memory_window::draw_dataview(HDC hdc, RECT& rect)
+{
+	TextOutW(hdc, 400, 100, L"DATA VIEW", 11);
 }

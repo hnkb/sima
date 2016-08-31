@@ -19,6 +19,9 @@ namespace sima
 			virtual LRESULT proc(const UINT message, const WPARAM wParam, const LPARAM lParam) override;
 
 		protected:
+			void draw_memview(HDC hdc, RECT& rect);
+			void draw_dataview(HDC hdc, RECT& rect);
+
 			HFONT font_fixed;
 		};
 
