@@ -10,3 +10,4 @@
 
 #include <atlbase.h>
 #include <strsafe.h>
+#include <CommCtrl.h>
