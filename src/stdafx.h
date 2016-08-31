@@ -9,3 +9,4 @@
 #include <Windows.h>
 
 #include <atlbase.h>
+#include <strsafe.h>

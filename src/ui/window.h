@@ -13,8 +13,8 @@ namespace sima
 		class window
 		{
 		public:
-			window() : window(L"sima", L"sima") {}
-			window(const std::wstring className, const std::wstring title);
+			window() : window(L"sima", L"sima", CW_USEDEFAULT, 0, CW_USEDEFAULT, 0) {}
+			window(const std::wstring className, const std::wstring title, const int x, const int y, const int width, const int height);
 
 			window(const window& other) = delete;
 			window(window&& other) = delete;

@@ -1,7 +1,8 @@
 
 #pragma once
 
-#include "window.h"
+#include "proc_window.h"
+#include "memory_window.h"
 #include "utility.h"
 
 
@@ -26,7 +27,8 @@ namespace sima
 
 		private:
 			utility::com_initialize com_init;
-			window main;
+			proc_window proc;
+			memory_window memory;
 		};
 
 	}

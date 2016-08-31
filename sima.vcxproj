@@ -166,11 +166,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\ui\application.cpp" />
+    <ClCompile Include="src\ui\memory_window.cpp" />
+    <ClCompile Include="src\ui\proc_window.cpp" />
     <ClCompile Include="src\ui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\ui\application.h" />
+    <ClInclude Include="src\ui\memory_window.h" />
+    <ClInclude Include="src\ui\proc_window.h" />
     <ClInclude Include="src\ui\utility.h" />
     <ClInclude Include="src\ui\window.h" />
     <ClInclude Include="src\ui\utility\com_initialize.h" />

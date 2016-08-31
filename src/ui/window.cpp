@@ -6,7 +6,7 @@
 using sima::ui::window;
 
 
-window::window(const std::wstring className, const std::wstring title) : handle(nullptr)
+window::window(const std::wstring className, const std::wstring title, const int x, const int y, const int width, const int height) : handle(nullptr)
 {
 	WNDCLASSEXW wcex = {};
 	wcex.cbSize = sizeof(WNDCLASSEXW);
@@ -16,7 +16,10 @@ window::window(const std::wstring className, const std::wstring title) : handle(
 	wcex.lpfnWndProc = proc;
 	RegisterClassExW(&wcex);
 
-	handle = CreateWindowExW(0, wcex.lpszClassName, title.c_str(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, wcex.hInstance, nullptr);
+	RECT rect { 0, 0, width, height };
+	if (width != CW_USEDEFAULT) AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+
+	handle = CreateWindowExW(0, wcex.lpszClassName, title.c_str(), WS_OVERLAPPEDWINDOW, x, y, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, wcex.hInstance, nullptr);
 	if (!handle) throw windows_error("CreateWindow");
 
 	SetWindowLongPtrW(handle, GWLP_USERDATA, LONG_PTR(this));
