@@ -32,8 +32,8 @@ namespace sima
 		private:
 			utility::com_initialize com_init;
 			sim::computer computer;
-			proc_window proc;
 			memory_window memory;
+			proc_window proc;
 		};
 
 	}

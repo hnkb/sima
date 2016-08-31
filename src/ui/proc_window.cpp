@@ -22,6 +22,7 @@ proc_window::proc_window(sima::ui::application& owner) : window(L"sima", L"sima 
 		SendMessageW(code_editor, WM_SETFONT, WPARAM(font_fixed), FALSE);
 	
 	SetWindowTextW(code_editor, L"COPY [0], 42\r\nCOPY [1], 12\r\n");
+	SetFocus(code_editor);
 }
 
 proc_window::~proc_window()
