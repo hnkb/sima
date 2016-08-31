@@ -12,7 +12,7 @@ namespace sima
 		class proc_window : public window
 		{
 		public:
-			proc_window(sim::computer& comp);
+			proc_window(application& owner);
 
 			virtual ~proc_window();
 

@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "sim/computer.h"
 #include <string>
 #include <Windows.h>
 
@@ -10,12 +9,13 @@ namespace sima
 {
 	namespace ui
 	{
+		class application;
 
 		class window
 		{
 		public:
-			window(sim::computer& comp) : window(L"sima", L"sima", CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, comp) {}
-			window(const std::wstring className, const std::wstring title, const int x, const int y, const int width, const int height, sim::computer& comp);
+			window(application& owner) : window(L"sima", L"sima", CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, owner) {}
+			window(const std::wstring className, const std::wstring title, const int x, const int y, const int width, const int height, application& owner);
 
 			window(const window& other) = delete;
 			window(window&& other) = delete;
@@ -32,8 +32,7 @@ namespace sima
 			static LRESULT CALLBACK proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 			HWND handle;
-
-			sim::computer& computer;
+			application& app;
 		};
 	}
 }

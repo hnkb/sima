@@ -1,11 +1,12 @@
 
 #include "stdafx.h"
 #include "memory_window.h"
+#include "application.h"
 
 using sima::ui::memory_window;
 
 
-memory_window::memory_window(sima::sim::computer& comp) : window(L"sima", L"sima memory", 610, 200, 800, 500, comp)
+memory_window::memory_window(sima::ui::application& owner) : window(L"sima", L"sima memory", 610, 200, 800, 500, owner)
 {
 	LOGFONTW lf = {};
 	lf.lfHeight = -MulDiv(10, GetDeviceCaps(GetDC(handle), LOGPIXELSY), 72);
@@ -33,7 +34,8 @@ LRESULT memory_window::proc(const UINT message, const WPARAM wParam, const LPARA
 		FillRect(hdc, &ps.rcPaint, HBRUSH(COLOR_WINDOW + 1));
 		auto font_default = SelectObject(hdc, font_fixed);
 
-		for (int i = 0, y = 10; i < computer.memory.size() && y < ps.rcPaint.bottom; i++, y += 20)
+		auto& sysmem = app.get_computer().memory;
+		for (int i = 0, y = 10; i < sysmem.size() && y < ps.rcPaint.bottom; i++, y += 20)
 		{
 			RECT r{ 10, y, 30, y + 20 };
 			SetTextColor(hdc, 0xfec16e);
@@ -42,7 +44,7 @@ LRESULT memory_window::proc(const UINT message, const WPARAM wParam, const LPARA
 			r.left = 40;
 			r.right = 70;
 			SetTextColor(hdc, 0);
-			DrawTextW(hdc, std::to_wstring(computer.memory[i]).c_str(), -1, &r, DT_RIGHT | DT_TOP);
+			DrawTextW(hdc, std::to_wstring(sysmem[i]).c_str(), -1, &r, DT_RIGHT | DT_TOP);
 		}
 
 		TextOutW(hdc, 400, 100, L"DATA VIEW", 11);

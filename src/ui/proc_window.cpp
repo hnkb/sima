@@ -1,12 +1,13 @@
 
 #include "stdafx.h"
 #include "proc_window.h"
+#include "application.h"
 #include "utility.h"
 
 using sima::ui::proc_window;
 
 
-proc_window::proc_window(sima::sim::computer& comp) : window(L"sima", L"sima processor", 200, 200, 400, 500, comp), code_editor(nullptr)
+proc_window::proc_window(sima::ui::application& owner) : window(L"sima", L"sima processor", 200, 200, 400, 500, owner), code_editor(nullptr)
 {
 	code_editor = CreateWindowExW(0, L"EDIT", nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL, 100, 30, 300, 350, handle, nullptr, (HINSTANCE)GetWindowLongPtrW(handle, GWLP_HINSTANCE), nullptr);
 	if (!code_editor) throw windows_error("Creation of processor window");

@@ -15,7 +15,7 @@ namespace sima
 		class application
 		{
 		public:
-			application() : proc(computer), memory(computer) {}
+			application() : memory(*this), proc(*this) {}
 
 			application(const application& other) = delete;
 			application(application&& other) = delete;
@@ -25,6 +25,9 @@ namespace sima
 			virtual ~application() {}
 
 			int run();
+
+			sim::computer& get_computer() { return computer; }
+			memory_window& get_memwindow() { return memory; }
 
 		private:
 			utility::com_initialize com_init;

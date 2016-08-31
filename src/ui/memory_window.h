@@ -12,7 +12,7 @@ namespace sima
 		class memory_window : public window
 		{
 		public:
-			memory_window(sim::computer& comp);
+			memory_window(application& owner);
 
 			~memory_window();
 
