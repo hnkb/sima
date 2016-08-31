@@ -171,6 +171,7 @@
     <ClCompile Include="src\ui\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sim\computer.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\ui\application.h" />
     <ClInclude Include="src\ui\memory_window.h" />

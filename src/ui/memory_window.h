@@ -12,11 +12,14 @@ namespace sima
 		class memory_window : public window
 		{
 		public:
-			memory_window();
+			memory_window(sim::computer& comp);
 
 			~memory_window();
 
 			virtual LRESULT proc(const UINT message, const WPARAM wParam, const LPARAM lParam) override;
+
+		protected:
+			HFONT font_fixed;
 		};
 
 	}

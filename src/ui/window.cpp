@@ -6,7 +6,7 @@
 using sima::ui::window;
 
 
-window::window(const std::wstring className, const std::wstring title, const int x, const int y, const int width, const int height) : handle(nullptr)
+window::window(const std::wstring className, const std::wstring title, const int x, const int y, const int width, const int height, sima::sim::computer& comp) : handle(nullptr), computer(comp)
 {
 	WNDCLASSEXW wcex = {};
 	wcex.cbSize = sizeof(WNDCLASSEXW);
