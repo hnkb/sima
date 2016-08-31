@@ -75,3 +75,8 @@ std::wstring window::get_title() const
 {
 	return utility::get_win32_text(handle);
 }
+
+void window::redraw()
+{
+	InvalidateRect(handle, nullptr, FALSE);
+}

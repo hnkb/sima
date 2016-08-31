@@ -26,6 +26,7 @@ namespace sima
 
 			void set_title(const std::wstring title);
 			std::wstring get_title() const;
+			void redraw();
 
 		protected:
 			virtual LRESULT proc(const UINT message, const WPARAM wParam, const LPARAM lParam);
