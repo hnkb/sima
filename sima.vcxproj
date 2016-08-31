@@ -177,6 +177,7 @@
     <ClInclude Include="src\ui\memory_window.h" />
     <ClInclude Include="src\ui\proc_window.h" />
     <ClInclude Include="src\ui\utility.h" />
+    <ClInclude Include="src\ui\utility\win32helpers.h" />
     <ClInclude Include="src\ui\window.h" />
     <ClInclude Include="src\ui\utility\com_initialize.h" />
     <ClInclude Include="src\ui\utility\windows_error.h" />

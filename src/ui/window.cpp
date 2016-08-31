@@ -73,8 +73,5 @@ void window::set_title(const std::wstring title)
 
 std::wstring window::get_title() const
 {
-	std::wstring text(GetWindowTextLengthW(handle) + 1, 0);
-	GetWindowTextW(handle, &text[0], (int)text.size());
-	text.resize(text.size() - 1);
-	return text;
+	return utility::get_win32_text(handle);
 }
