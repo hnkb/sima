@@ -24,6 +24,9 @@ window::window(const std::wstring className, const std::wstring title, const int
 
 	SetWindowLongPtrW(handle, GWLP_USERDATA, LONG_PTR(this));
 	ShowWindow(handle, SW_SHOWDEFAULT);
+
+	GetClientRect(handle, &rect);
+	PostMessageW(handle, WM_SIZE, SIZE_RESTORED, MAKELPARAM(rect.right - rect.left, rect.bottom - rect.top));
 }
 
 window::~window()
