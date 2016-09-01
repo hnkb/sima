@@ -26,7 +26,7 @@ namespace sima
 			private:
 				enum class operand_type
 				{
-					memory, immediate
+					pointer_memory, memory, immediate
 				} type;
 
 				int val;
