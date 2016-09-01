@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "computer.h"
 #include "execution_error.h"
+#include "assembly/operand.h"
 
 using sima::computer::computer;
 
@@ -51,24 +52,17 @@ void computer::execute_instruction(std::wstring instruction, std::wstring op1, s
 	std::wregex rimm(L"(\\d+)");
 	std::wsmatch m;
 
-	if (!std::regex_match(op1, m, rmem) || m.size() != 2) throw execution_error(L"dest must be memory");
-	int dest = std::stoi(m[1]);
-
-	int src = 0;
-	if (std::regex_match(op2, m, rmem) && m.size() == 2)
-		src = memory[std::stoi(m[1])];
-	else if (std::regex_match(op2, m, rimm) && m.size() == 2)
-		src = std::stoi(m[1]);
-	else throw execution_error(L"src must be memory or immediate");
+	auto n1 = assembly::operand(op1),
+		n2 = assembly::operand(op2);
 
 	if (instruction == L"copy")
-		memory[dest] = src;
+		n1.set(n2.get(*this), *this);
 	else if (instruction == L"add")
-		memory[dest] += src;
+		n1.set(n1.get(*this) + n2.get(*this), *this);
 	else if (instruction == L"sub")
-		memory[dest] -= src;
+		n1.set(n1.get(*this) - n2.get(*this), *this);
 	else if (instruction == L"mul")
-		memory[dest] *= src;
+		n1.set(n1.get(*this) * n2.get(*this), *this);
 	else
 		throw execution_error(L"Instruction not recognized");
 }
