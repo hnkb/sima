@@ -138,7 +138,13 @@ void proc_window::update_log(const std::vector<std::wstring>& updates)
 void proc_window::program_run()
 {
 	std::vector<std::wstring> messages;
-	app.get_computer().execute_program(utility::get_win32_text(code_editor), messages);
+
+	try
+	{
+		computer::assembly::program p(utility::get_win32_text(code_editor), messages);
+		app.get_computer().execute(p, messages);
+	}
+	catch (...) {}
 
 	update_log(messages);
 	update_log(L"");

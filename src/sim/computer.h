@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "assembly/program.h"
 #include <string>
 #include <vector>
 
@@ -15,9 +16,7 @@ namespace sima
 		public:
 			computer() : memory(100) {}
 
-			void execute_program(const std::wstring program, std::vector<std::wstring>& log);
-			void execute_instruction(const std::wstring statement);
-			void execute_instruction(std::wstring instruction, std::wstring op1, std::wstring op2);
+			void execute(assembly::program& prog, std::vector<std::wstring>& log);
 
 			std::vector<int> memory;
 
