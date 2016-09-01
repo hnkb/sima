@@ -29,6 +29,7 @@ void computer::execute_program(const std::wstring program, std::vector<std::wstr
 	catch (execution_error e)
 	{
 		log.push_back(std::wstring(L"Error at line #") + std::to_wstring(i) + L": " + e.message);
+		if (e.source.size()) log.push_back(std::wstring(L"  in " + e.source));
 		log.emplace_back(L"Execution failed");
 	}
 }
@@ -37,12 +38,9 @@ void computer::execute_instruction(const std::wstring statement)
 {
 	std::wregex re(L"\\s*(\\S+)\\s+([^\\s,]+),\\s*([^\\s]+)\\s*");
 	std::wsmatch m;
+	if (!std::regex_match(statement, m, re) || m.size() != 4) throw execution_error(L"syntax error", statement);
 
-	if (std::regex_match(statement, m, re))
-	{
-		if (m.size() != 4) throw execution_error(L"Regex result unexpected!");
-		execute_instruction(m[1], m[2], m[3]);
-	}
+	execute_instruction(m[1], m[2], m[3]);
 }
 
 void computer::execute_instruction(std::wstring instruction, std::wstring op1, std::wstring op2)
