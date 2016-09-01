@@ -29,17 +29,17 @@ operand::operand(const std::wstring& code) : source(code)
 	}
 }
 
-void operand::set(const int value, sima::computer::computer& target)
+int& operand::ref(sima::computer::computer& target)
 {
 	if (type != operand_type::memory)
 		throw execution_error(L"destination must be a memory location", source);
 
 	chack_address_validity(target);
 
-	target.memory[val] = value;
+	return target.memory[val];
 }
 
-int operand::get(sima::computer::computer& target) const
+int operand::value(sima::computer::computer& target) const
 {
 	chack_address_validity(target);
 	return type == operand_type::memory ? target.memory[val] : val;

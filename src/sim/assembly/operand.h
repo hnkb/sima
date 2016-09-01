@@ -2,7 +2,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 
 namespace sima
@@ -19,8 +18,9 @@ namespace sima
 			public:
 				operand(const std::wstring& code);
 
-				void set(const int value, computer& target);
-				int get(computer& target) const;
+				int& ref(computer& target);
+				int value(computer& target) const;
+
 				void chack_address_validity(computer& target) const;
 
 			private:
