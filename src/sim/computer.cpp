@@ -5,13 +5,32 @@
 using sima::computer::computer;
 
 
-void computer::execute_program(const std::wstring program)
+void computer::execute_program(const std::wstring program, std::vector<std::wstring>& log)
 {
+	std::vector<std::wstring> lines;
+
 	std::wistringstream p(program);
 	std::wstring s;
-	while (std::getline(p, s))
+	while (std::getline(p, s)) lines.push_back(s);
+
+	log.push_back(std::wstring(L"Executing ") + std::to_wstring(lines.size()) + L" lines of code");
+
+	int i = 0;
+	try
 	{
-		execute_instruction(s);
+		for (i = 0; i < lines.size(); i++)
+		{
+			execute_instruction(lines[i]);
+		}
+
+		log.emplace_back(L"Completed successfully");
+	}
+	catch (std::exception e)
+	{
+		wchar_t buffer[512];
+		MultiByteToWideChar(CP_ACP, 0, e.what(), -1, buffer, 512);
+		log.push_back(std::wstring(L"Error at line #") + std::to_wstring(i) + L": " + buffer);
+		log.emplace_back(L"Execution failed");
 	}
 }
 
