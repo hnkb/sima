@@ -28,7 +28,7 @@ proc_window::proc_window(sima::ui::application& owner) : window(L"sima", L"sima 
 		if (!code_editor) throw windows_error("Creation of processor window");
 
 		SendMessageW(code_editor, WM_SETFONT, WPARAM(font_fixed), FALSE);
-		SetWindowTextW(code_editor, L"COPY [0], 42\r\nCOPY [1], 12\r\n");
+		SetWindowTextW(code_editor, L"COPY [0], 42\r\nADD [1], 13\r\nSUB [2], 2\r\nCOPY [3], [1]\r\nMUL [3], [2]\r\n");
 		SetFocus(code_editor);
 	}
 
