@@ -1,8 +1,11 @@
 
 #pragma once
 
+#include <algorithm>
 #include <stdexcept>
 #include <string>
+#include <sstream>
+#include <regex>
 #include <vector>
 
 #define NOMINMAX

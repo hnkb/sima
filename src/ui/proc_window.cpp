@@ -137,5 +137,16 @@ void proc_window::update_log(const std::vector<std::wstring>& updates)
 
 void proc_window::program_run()
 {
+	try
+	{
+		app.get_computer().execute_program(utility::get_win32_text(code_editor));
+	}
+	catch (std::exception e)
+	{
+		wchar_t buffer[512];
+		MultiByteToWideChar(CP_ACP, 0, e.what(), -1, buffer, 512);
+		update_log(std::wstring(L"Execution failed. ") + buffer);
+	}
 
+	app.get_memwindow().redraw();
 }
