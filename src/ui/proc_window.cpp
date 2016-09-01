@@ -11,20 +11,23 @@ proc_window::proc_window(sima::ui::application& owner) : window(L"sima", L"sima 
 {
 	auto hinst = HINSTANCE(GetWindowLongPtrW(handle, GWLP_HINSTANCE));
 
-	// Create code editor control
+	// Create fixed-width font
 	{
-		code_editor = CreateWindowExW(0, L"EDIT", nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL, 0, 0, 0, 0, handle, nullptr, hinst, nullptr);
-		if (!code_editor) throw windows_error("Creation of processor window");
-
 		LOGFONTW lf = {};
 		lf.lfHeight = -MulDiv(10, GetDeviceCaps(GetDC(handle), LOGPIXELSY), 72);
 		lf.lfWeight = 400;
 		lf.lfCharSet = DEFAULT_CHARSET;
 		lf.lfQuality = CLEARTYPE_NATURAL_QUALITY;
 		StringCchCopyW(lf.lfFaceName, 32, L"Consolas");
-		if (font_fixed = CreateFontIndirectW(&lf))
-			SendMessageW(code_editor, WM_SETFONT, WPARAM(font_fixed), FALSE);
+		font_fixed = CreateFontIndirectW(&lf);
+	}
 
+	// Create code editor control
+	{
+		code_editor = CreateWindowExW(0, L"EDIT", nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL, 0, 0, 0, 0, handle, nullptr, hinst, nullptr);
+		if (!code_editor) throw windows_error("Creation of processor window");
+
+		SendMessageW(code_editor, WM_SETFONT, WPARAM(font_fixed), FALSE);
 		SetWindowTextW(code_editor, L"COPY [0], 42\r\nCOPY [1], 12\r\n");
 		SetFocus(code_editor);
 	}
@@ -48,6 +51,14 @@ proc_window::proc_window(sima::ui::application& owner) : window(L"sima", L"sima 
 
 		SendMessageW(toolbar, TB_AUTOSIZE, 0, 0);
 		ShowWindow(toolbar, SW_SHOW);
+	}
+
+	// Create log window
+	{
+		log = CreateWindowExW(0, L"EDIT", nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY, 0, 0, 0, 0, handle, nullptr, hinst, nullptr);
+		if (!log) throw windows_error("Creation of processor window");
+
+		SendMessageW(log, WM_SETFONT, WPARAM(font_fixed), FALSE);
 	}
 }
 
@@ -83,11 +94,44 @@ LRESULT proc_window::proc(const UINT message, const WPARAM wParam, const LPARAM 
 
 void proc_window::resize_children(const WORD width, const WORD height)
 {
+	constexpr int edit_left = 48;
+	constexpr int edit_border = 2;
+	constexpr int edit_margin = 6;
+	constexpr int log_height = 150;
+
+	auto add_margin = [](HWND hwnd, const int margin)
+	{
+		RECT r;
+		SendMessageW(hwnd, EM_SETRECT, 0, 0);
+		SendMessageW(hwnd, EM_GETRECT, 0, LPARAM(&r));
+		r.left += margin; r.top += margin; r.bottom -= margin; r.right -= margin;
+		SendMessageW(hwnd, EM_SETRECT, 0, LPARAM(&r));
+	};
+
 	SendMessageW(toolbar, TB_AUTOSIZE, 0, 0);
-	
+
 	RECT rect;
 	GetWindowRect(toolbar, &rect);
-	MoveWindow(code_editor, 48, rect.bottom - rect.top + 4, width - 48, height - 150, TRUE);
+
+	auto edit_top = rect.bottom - rect.top + edit_border;
+	MoveWindow(code_editor, edit_left, edit_top, width - edit_left, height - log_height - edit_border - edit_top, TRUE);
+	add_margin(code_editor, edit_margin);
+
+	MoveWindow(log, 0, height - log_height, width, log_height, TRUE);
+	add_margin(log, edit_margin);
+}
+
+void proc_window::update_log(const std::wstring& update)
+{
+	int index = GetWindowTextLengthW(log);
+	SendMessageW(log, EM_SETSEL, WPARAM(index), LPARAM(index));
+	SendMessageW(log, EM_REPLACESEL, 0, LPARAM(update.c_str()));
+	SendMessageW(log, EM_REPLACESEL, 0, LPARAM(L"\r\n"));
+}
+
+void proc_window::update_log(const std::vector<std::wstring>& updates)
+{
+	for (const auto& u : updates) update_log(u);
 }
 
 
