@@ -1,6 +1,7 @@
 
 #include "stdafx.h"
 #include "instruction.h"
+#include "sim/computer.h"
 #include "sim/execution_error.h"
 
 using sima::computer::assembly::instruction;
@@ -35,4 +36,6 @@ void instruction::execute(sima::computer::computer& target)
 		a *= b;
 	else
 		throw execution_error(L"invalid instruction mnemonic", mnemonic);
+
+	target.instruction_pointer++;
 }

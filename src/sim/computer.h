@@ -18,6 +18,7 @@ namespace sima
 
 			void execute(assembly::program& prog, std::vector<std::wstring>& log);
 
+			size_t instruction_pointer;
 			std::vector<int> memory;
 
 		};
