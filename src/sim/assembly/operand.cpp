@@ -10,7 +10,7 @@ using sima::computer::assembly::operand;
 operand::operand(const std::wstring& code) : source(code)
 {
 	std::wregex rmem(L"\\[(\\d+)\\]");
-	std::wregex rimm(L"(\\d+)");
+	std::wregex rimm(L"(-?\\d+)");
 	std::wsmatch m;
 
 	if (std::regex_match(code, m, rmem) && m.size() == 2)
