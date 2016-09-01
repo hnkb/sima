@@ -6,7 +6,7 @@
 
 namespace sima
 {
-	namespace sim
+	namespace computer
 	{
 
 		class computer

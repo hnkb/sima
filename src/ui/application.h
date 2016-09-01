@@ -26,12 +26,12 @@ namespace sima
 
 			int run();
 
-			sim::computer& get_computer() { return computer; }
+			computer::computer& get_computer() { return computer; }
 			memory_window& get_memwindow() { return memory; }
 
 		private:
 			utility::com_initialize com_init;
-			sim::computer computer;
+			computer::computer computer;
 			memory_window memory;
 			proc_window proc;
 		};
