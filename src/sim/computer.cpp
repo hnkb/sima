@@ -1,6 +1,7 @@
 
 #include "stdafx.h"
 #include "computer.h"
+#include "execution_error.h"
 
 using sima::computer::computer;
 
@@ -25,11 +26,9 @@ void computer::execute_program(const std::wstring program, std::vector<std::wstr
 
 		log.emplace_back(L"Completed successfully");
 	}
-	catch (std::exception e)
+	catch (execution_error e)
 	{
-		wchar_t buffer[512];
-		MultiByteToWideChar(CP_ACP, 0, e.what(), -1, buffer, 512);
-		log.push_back(std::wstring(L"Error at line #") + std::to_wstring(i) + L": " + buffer);
+		log.push_back(std::wstring(L"Error at line #") + std::to_wstring(i) + L": " + e.message);
 		log.emplace_back(L"Execution failed");
 	}
 }
@@ -41,7 +40,7 @@ void computer::execute_instruction(const std::wstring statement)
 
 	if (std::regex_match(statement, m, re))
 	{
-		if (m.size() != 4) throw std::runtime_error("Regex result unexpected!");
+		if (m.size() != 4) throw execution_error(L"Regex result unexpected!");
 		execute_instruction(m[1], m[2], m[3]);
 	}
 }
@@ -54,7 +53,7 @@ void computer::execute_instruction(std::wstring instruction, std::wstring op1, s
 	std::wregex rimm(L"(\\d+)");
 	std::wsmatch m;
 
-	if (!std::regex_match(op1, m, rmem) || m.size() != 2) throw std::runtime_error("dest must be memory");
+	if (!std::regex_match(op1, m, rmem) || m.size() != 2) throw execution_error(L"dest must be memory");
 	int dest = std::stoi(m[1]);
 
 	int src = 0;
@@ -62,7 +61,7 @@ void computer::execute_instruction(std::wstring instruction, std::wstring op1, s
 		src = memory[std::stoi(m[1])];
 	else if (std::regex_match(op2, m, rimm) && m.size() == 2)
 		src = std::stoi(m[1]);
-	else throw std::runtime_error("src must be memory or immediate");
+	else throw execution_error(L"src must be memory or immediate");
 
 	if (instruction == L"copy")
 		memory[dest] = src;
@@ -73,5 +72,5 @@ void computer::execute_instruction(std::wstring instruction, std::wstring op1, s
 	else if (instruction == L"mul")
 		memory[dest] *= src;
 	else
-		throw std::runtime_error("Instruction not recognized");
+		throw execution_error(L"Instruction not recognized");
 }
