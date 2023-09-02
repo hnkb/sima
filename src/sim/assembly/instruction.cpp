@@ -1,8 +1,7 @@
 
-#include "stdafx.h"
 #include "instruction.h"
-#include "sim/computer.h"
-#include "sim/execution_error.h"
+#include "../computer.h"
+#include "../execution_error.h"
 
 using sima::computer::assembly::instruction;
 

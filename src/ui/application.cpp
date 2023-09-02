@@ -1,5 +1,4 @@
 
-#include "stdafx.h"
 #include "application.h"
 
 using sima::ui::application;

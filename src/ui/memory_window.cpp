@@ -1,5 +1,4 @@
 
-#include "stdafx.h"
 #include "memory_window.h"
 #include "application.h"
 

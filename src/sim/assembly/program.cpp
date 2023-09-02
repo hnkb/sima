@@ -1,7 +1,6 @@
 
-#include "stdafx.h"
 #include "program.h"
-#include "sim/execution_error.h"
+#include "../execution_error.h"
 
 using sima::computer::assembly::program;
 

@@ -1,8 +1,7 @@
 
-#include "stdafx.h"
 #include "operand.h"
-#include "sim/execution_error.h"
-#include "sim/computer.h"
+#include "../execution_error.h"
+#include "../computer.h"
 
 using sima::computer::assembly::operand;
 

@@ -1,5 +1,4 @@
 
-#include "stdafx.h"
 #include "computer.h"
 #include "execution_error.h"
 

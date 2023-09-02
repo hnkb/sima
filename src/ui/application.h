@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "sim/computer.h"
+#include "../sim/computer.h"
 #include "proc_window.h"
 #include "memory_window.h"
 #include "utility.h"

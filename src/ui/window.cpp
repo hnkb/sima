@@ -1,5 +1,4 @@
 
-#include "stdafx.h"
 #include "window.h"
 #include "utility.h"
 

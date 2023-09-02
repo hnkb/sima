@@ -1,5 +1,4 @@
 
-#include "stdafx.h"
 #include "ui/application.h"
 
 #pragma comment(lib, "Comctl32.lib")
